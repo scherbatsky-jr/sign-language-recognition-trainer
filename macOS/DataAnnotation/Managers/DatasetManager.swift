@@ -62,6 +62,7 @@ class DatasetManager {
         var foundSubdirectories = [String]()
         var labels = [String]()
         var analysisResult = [VisionAnalysisResult]()
+        var filenames = [String]()
         var operations: [Operation] = []
         do {
             // Load all of the labels present in the dataset
@@ -74,7 +75,7 @@ class DatasetManager {
             do {
                 // Structure the data into a MLDataTable
                 let outputDataStructuringManager = DataStructuringManager()
-                let output = try outputDataStructuringManager.combineData(labels: labels, results: analysisResult)
+                let output = try outputDataStructuringManager.combineData(labels: labels, results: analysisResult, filenames: filenames)
                 completion(.success(output))
             } catch {
                 completion(.failure(error))
@@ -103,6 +104,7 @@ class DatasetManager {
                         let videoAnalysisOp = VideoAnalysisOperation(visionAnalysisManager: currentItemAnalysisManager) { result in
                             analysisResult.append(result)
                             labels.append(subdirectory)
+                            filenames.append(item)
                         }
                         
                         operations.append(videoAnalysisOp)

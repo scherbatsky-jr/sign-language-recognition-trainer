@@ -172,18 +172,20 @@ class DataStructuringManager {
     /// - Parameters:
     ///   - labels: Array of String labels of the individuals signs
     ///   - visionAnalyses: Array of the processed and annotated VisionAnalysisManagers
-    ///
+    ///   - filenames: Array of String filenames corresponding to the analyses
+    /// 
     /// - Returns: Newly constructed MLDataTable
     ///
-    func combineData(labels: [String], results: [VisionAnalysisResult]) throws -> MLDataTable {
+    func combineData(labels: [String], results: [VisionAnalysisResult], filenames: [String]) throws -> MLDataTable {
         // Ensure that the data is equally long
-        guard labels.count == results.count else {
+        guard labels.count == results.count, filenames.count == results.count else {
             throw OutputProcessingError.invalidData
         }
 
         // Prepare the structured data in the MLDataTable-processable format
         var convertedToMLData = [String: MLDataValueConvertible]()
         convertedToMLData["labels"] = labels
+        convertedToMLData["filename"] = filenames
 
         // Stack the data from individual analyses to arrays
         var stackedData = [String: [[Double]]]()

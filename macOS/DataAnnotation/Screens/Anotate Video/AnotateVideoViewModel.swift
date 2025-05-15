@@ -50,7 +50,8 @@ extension AnotateVideoView {
                             fps: self.analysisManager.fps)
                         let data = try self.dataStructuringManager.combineData(
                             labels: [nameVideoUrl],
-                            results: [result])
+                            results: [result],
+                            filenames: [selectedVideoUrl.lastPathComponent])
                         
                         self.saveCVS(data: data)
                     } catch {
